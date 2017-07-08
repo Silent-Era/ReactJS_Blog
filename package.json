@@ -1,0 +1,22 @@
+{
+  "name": "react_project",
+  "version": "0.1.0",
+  "dependencies": {
+    "express": "4.15.3",
+    "react": "^15.6.1",
+    "react-dom": "^15.6.1",
+    "react-router-dom": "4.1.1"
+  },
+  "devDependencies": {
+    "nodemon": "1.11.0",
+    "react-scripts": "1.0.10"
+  },
+  "scripts": {
+    "start": "react-scripts start && node ./src/server",
+    "build": "react-scripts build && node ./src/server",
+    "test": "react-scripts test --env=jsdom",
+    "eject": "react-scripts eject",
+    "server": "nodemon ./src/server"
+  },
+  "license": "MIT"
+}
