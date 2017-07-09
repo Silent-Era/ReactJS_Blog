@@ -6,8 +6,13 @@ import { MuiThemeProvider } from 'material-ui/styles';
 
 import AppHeader from './components/shared/layout/AppHeader';
 
-import HomePage from './components/home/HomePage'
-import NotFoundPage from './components/shared/NotFoundPage'
+import HomePage from './components/home/HomePage';
+
+import UserPage from './components/user/UserPage';
+
+import LoginPage from './components/auth/LoginPage';
+import RegisterPage from './components/auth/RegisterPage';
+import NotFoundPage from './components/shared/NotFoundPage';
 
 class App extends Component {
     render() {
@@ -19,6 +24,11 @@ class App extends Component {
 
                         <Switch>
                             <Route exact path='/' component={HomePage} />
+                            <Route exact path='/user/:id' component={UserPage} />
+
+                            <Route exact path='/auth/login' component={LoginPage} />
+                            <Route exact path='/auth/register' component={RegisterPage} />
+
                             <Route path='*' component={NotFoundPage} />
                         </Switch>
                     </div>
