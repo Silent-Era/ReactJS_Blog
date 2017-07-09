@@ -2,6 +2,10 @@ import React, { Component } from 'react';
 import TextField from 'material-ui/TextField';
 import Button from 'material-ui/Button';
 
+import userActions from '../../actions/user/userActions';
+import * as types from '../../actions/user/userActionsTypes';
+import userStore from '../../stores/user/userStore';
+
 class RegisterPage extends Component {
     constructor() {
         super();
@@ -15,6 +19,13 @@ class RegisterPage extends Component {
 
         this.onInputChange = this.onInputChange.bind(this);
         this.onSubmit = this.onSubmit.bind(this);
+        this.onRespond = this.onRespond.bind(this);
+
+        userStore.on(types.USER_REGISTERED, this.onRespond);
+    }
+
+    componentWillUnmount() {
+        userStore.removeListener(types.USER_REGISTERED, this.onRespond);
     }
 
     render() {
@@ -63,8 +74,11 @@ class RegisterPage extends Component {
 
     onSubmit(event) {
         event.preventDefault();
+        userActions.register(this.state.user);
+    }
 
-        console.log(this.state);
+    onRespond(data) {
+        console.log(data);
     }
 }
 

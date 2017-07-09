@@ -1,10 +1,12 @@
 import { EventEmitter } from 'events';
 
-import dispatcher from '..dispatcher';
+import dispatcher from '../../dispatcher';
 import * as types from '../../actions/user/userActionsTypes';
 
 class UserStore extends EventEmitter {
     constructor() {
+        super();
+
         this.register = this.register.bind(this);
         this.handleAction = this.handleAction.bind(this);
     }
@@ -15,16 +17,10 @@ class UserStore extends EventEmitter {
      * @param {Object} user 
      */
     register(user) {
-        console.log(`Registering... ${user}`)
-
         // TODO: Call api
         if (true/*API return success*/) {
             // REPLACE mockData with data received from API promise (then)
-            let mockData = {
-                user: {
-                    username: user
-                }
-            };
+            let mockData = {user}
 
             this.emit(types.USER_REGISTERED, mockData);
         }
@@ -41,11 +37,14 @@ class UserStore extends EventEmitter {
                 this.register(action.payload);
                 break;
             }
+            default: {
+                throw new Error('Unknown action passed the store');
+            }
         }
     }
 }
 
-let userStore = new UserStore;
+let userStore = new UserStore();
 dispatcher.register(userStore.handleAction);
 
 export default userStore;

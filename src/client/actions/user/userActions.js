@@ -1,5 +1,5 @@
 import * as types from './userActionsTypes';
-import dispatcher from '../dispatcher';
+import dispatcher from '../../dispatcher';
 
 const userActions = {
     register: (user) => {
