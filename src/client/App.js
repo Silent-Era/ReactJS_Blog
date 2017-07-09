@@ -3,11 +3,9 @@ import PropTypes from 'prop-types';
 
 import { BrowserRouter, Switch, Route } from 'react-router-dom'
 import { MuiThemeProvider } from 'material-ui/styles';
-
 import AppHeader from './components/shared/layout/AppHeader';
 
 import HomePage from './components/home/HomePage';
-
 import UserPage from './components/user/UserPage';
 
 import LoginPage from './components/auth/LoginPage';
