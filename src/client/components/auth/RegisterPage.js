@@ -92,7 +92,7 @@ class RegisterPage extends Component {
 
         this.setState({
             user: newState
-        })
+        });
     }
 
     onSubmit(event) {
