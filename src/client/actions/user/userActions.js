@@ -7,6 +7,12 @@ const userActions = {
             type: types.USER_REGISTER,
             payload: user
         });
+    },
+    login: (user) => {
+        dispatcher.dispatch({
+            type: types.USER_LOGIN,
+            payload: user
+        });
     }
 };
 
