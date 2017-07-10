@@ -7,6 +7,8 @@ import Typography from 'material-ui/Typography';
 import Button from 'material-ui/Button';
 import IconButton from 'material-ui/IconButton';
 import MenuIcon from 'material-ui-icons/Menu';
+import ExitToApp from 'material-ui-icons/ExitToApp';
+
 import AppNavigation from './AppNavigation';
 import history from '../../../history';
 
@@ -21,21 +23,24 @@ class AppHeader extends Component {
         };
 
         this.toggleNavigation = this.toggleNavigation.bind(this);
-        this.changeRoute = this.changeRoute.bind(this);
+        this.navigate = this.navigate.bind(this);
     }
 
     render() {
-        let loggedInUsername = localStorage.getItem('reactive_blog_user'),
+        let token = localStorage.getItem('reactive_blog_token'),
             appHeaderPartial = null;
 
-        if (loggedInUsername) {
-            appHeaderPartial = `Hello ${loggedInUsername}`;
+        if (token) {
+            appHeaderPartial = <div>
+                <IconButton color="contrast" data-route="/auth/logout" onClick={this.logout}>
+                    <ExitToApp />
+                </IconButton>
+            </div>;
         } else {
-            appHeaderPartial = 
-                <div>
-                    <Button data-route="/auth/login" color="contrast" onClick={this.changeRoute}>Login</Button>
-                    <Button data-route="/auth/register" color="contrast" onClick={this.changeRoute}>Register</Button>
-                </div>;
+            appHeaderPartial = <div>
+                <Button data-route="/auth/login" color="contrast" onClick={this.navigate}>Login</Button>
+                <Button data-route="/auth/register" color="contrast" onClick={this.navigate}>Register</Button>
+            </div>;
         }
 
         return (
@@ -67,8 +72,13 @@ class AppHeader extends Component {
         })
     }
 
-    changeRoute(event) {
+    navigate(event) {
         history.push(event.currentTarget.dataset.route);
+    }
+
+    logout() {
+        localStorage.clear();
+        history.push('/');
     }
 }
 

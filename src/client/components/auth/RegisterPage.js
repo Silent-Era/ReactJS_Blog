@@ -5,6 +5,7 @@ import Button from 'material-ui/Button';
 import userActions from '../../actions/user/userActions';
 import * as types from '../../actions/user/userActionsTypes';
 import userStore from '../../stores/user/userStore';
+import history from '../../history';
 
 class RegisterPage extends Component {
     constructor() {
@@ -77,8 +78,15 @@ class RegisterPage extends Component {
         userActions.register(this.state.user);
     }
 
-    onRespond(data) {
-        console.log(data);
+    onRespond(response) {
+        if (response.errors.length) {
+
+        } else {
+            localStorage.setItem('reactive_blog_token', response.data.user.token);
+            localStorage.setItem('reactive_blog_user', response.data.user.username);
+            
+            history.push('/');
+        }
     }
 }
 
