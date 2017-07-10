@@ -13,8 +13,10 @@ class RegisterPage extends Component {
 
         this.state = {
             user: {
+                email: '',
                 username: '',
-                password: ''
+                password: '',
+                passwordConfirm: ''
             }
         };
 
@@ -37,6 +39,16 @@ class RegisterPage extends Component {
                 <form>
                     <div>
                         <TextField
+                            name="email"
+                            label="Email"
+                            type="email"
+                            value={this.state.user.email}
+                            onChange={this.onInputChange}
+                        />           
+                    </div>
+
+                    <div>
+                        <TextField
                             name="username"
                             label="Username"
                             value={this.state.user.username}
@@ -52,6 +64,16 @@ class RegisterPage extends Component {
                             value={this.state.user.password}
                             onChange={this.onInputChange}
                         />            
+                    </div>
+
+                    <div>
+                         <TextField
+                            name="passwordConfirm"
+                            label="Confirm Password"
+                            type="password"
+                            value={this.state.user.passwordConfirm}
+                            onChange={this.onInputChange}
+                        />   
                     </div>
 
                     <div>
