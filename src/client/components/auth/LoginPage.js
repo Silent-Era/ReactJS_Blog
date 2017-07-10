@@ -26,6 +26,10 @@ class LoginPage extends Component {
         userStore.on(types.USER_LOGGED_IN, this.onRespond);
     }
 
+    componentWillUnmount() {
+        userStore.removeListener(types.USER_REGISTERED, this.onRespond);
+    }
+
     render() {
         return (
             <section>
