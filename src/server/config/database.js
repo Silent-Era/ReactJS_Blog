@@ -4,6 +4,8 @@ const mongoose = require('mongoose')
 mongoose.Promise = global.Promise
 
 require('../models/User')
+require('../models/Post')
+require('../models/Comment')
 
 module.exports = () => {
   mongoose.connect(conStr)
