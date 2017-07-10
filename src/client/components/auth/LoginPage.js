@@ -7,6 +7,7 @@ import Button from 'material-ui/Button';
 import userActions from '../../actions/user/userActions';
 import * as types from '../../actions/user/userActionsTypes';
 import userStore from '../../stores/user/userStore';
+import toastr from 'toastr';
 
 class LoginPage extends Component {
     constructor() {
@@ -87,6 +88,7 @@ class LoginPage extends Component {
             localStorage.setItem('reactive_blog_user', response.data.user.username);
 
             history.push('/');
+            toastr.success('Login successful');
         }
     }
 }

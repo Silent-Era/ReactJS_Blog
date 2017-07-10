@@ -6,6 +6,7 @@ import userActions from '../../actions/user/userActions';
 import * as types from '../../actions/user/userActionsTypes';
 import userStore from '../../stores/user/userStore';
 import history from '../../history';
+import toastr from 'toastr';
 
 class RegisterPage extends Component {
     constructor() {
@@ -108,6 +109,7 @@ class RegisterPage extends Component {
             localStorage.setItem('reactive_blog_user', response.data.user.username);
             
             history.push('/');
+            toastr.success('Registration successful');
         }
     }
 }

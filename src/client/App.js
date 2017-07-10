@@ -11,6 +11,8 @@ import LoginPage from './components/auth/LoginPage';
 import RegisterPage from './components/auth/RegisterPage';
 import NotFoundPage from './components/shared/NotFoundPage';
 
+import './AppStyles.css';
+
 class App extends Component {
     constructor(props) {
         super(props);
@@ -24,6 +26,8 @@ class App extends Component {
         return (
             <MuiThemeProvider>
                 <div id="app-wrapper">
+
+
                     <AppHeader title={this.state.name} />
                     
                     <Switch>
