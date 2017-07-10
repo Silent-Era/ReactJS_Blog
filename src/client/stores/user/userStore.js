@@ -8,7 +8,25 @@ class UserStore extends EventEmitter {
         super();
 
         this.register = this.register.bind(this);
+        this.login = this.login.bind(this);
         this.handleAction = this.handleAction.bind(this);
+    }
+
+    login(user) {
+        if (true/*API return success*/) {
+            user.token = '123aBCD456';
+            // TODO: REPLACE mockData with data received from API promise (then)
+            let mockData = {
+                errors: [],
+                data: {user}
+            }
+
+            this.emit(types.USER_LOGGED_IN, mockData);
+        }
+    }
+
+    logout() {
+        this.emit(types.USER_LOGGED_OUT);
     }
 
     /**
@@ -39,6 +57,10 @@ class UserStore extends EventEmitter {
         switch(action.type) {
             case types.USER_REGISTER: {
                 this.register(action.payload);
+                break;
+            }
+            case types.USER_LOGIN: {
+                this.login(action.payload);
                 break;
             }
             default: {
