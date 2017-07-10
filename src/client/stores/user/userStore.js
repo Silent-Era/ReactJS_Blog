@@ -26,9 +26,6 @@ class UserStore extends EventEmitter {
                 data: {user}
             }
 
-            // TODO: FIND A SAFTY WAY
-            localStorage.setItem('reactive_blog_token', user.token);
-            localStorage.setItem('reactive_blog_user', user.username);
             this.emit(types.USER_REGISTERED, mockData);
         }
     }
