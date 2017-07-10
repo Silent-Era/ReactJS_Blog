@@ -19,9 +19,16 @@ class UserStore extends EventEmitter {
     register(user) {
         // TODO: Call api
         if (true/*API return success*/) {
-            // REPLACE mockData with data received from API promise (then)
-            let mockData = {user}
+            user.token = '123aBCD456';
+            // TODO: REPLACE mockData with data received from API promise (then)
+            let mockData = {
+                errors: [],
+                data: {user}
+            }
 
+            // TODO: FIND A SAFTY WAY
+            localStorage.setItem('reactive_blog_token', user.token);
+            localStorage.setItem('reactive_blog_user', user.username);
             this.emit(types.USER_REGISTERED, mockData);
         }
     }
