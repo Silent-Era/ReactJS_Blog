@@ -6,7 +6,8 @@ import userActions from '../../actions/user/userActions';
 import * as types from '../../actions/user/userActionsTypes';
 import userStore from '../../stores/user/userStore';
 import history from '../../history';
-import toastr from 'toastr';
+import notifier from '../../utils/notifier';
+
 
 class RegisterPage extends Component {
     constructor() {
@@ -103,13 +104,12 @@ class RegisterPage extends Component {
 
     onRespond(response) {
         if (response.errors.length) {
-
+            notifier.notifyMany(response.errors, "error");
         } else {
             localStorage.setItem('token', response.data.token);
-            // localStorage.setItem('reactive_blog_user', response.data.user.username);
             
             history.push('/');
-            toastr.success('Registration successful');
+            notifier.notify('Registration successful', "success");
         }
     }
 }

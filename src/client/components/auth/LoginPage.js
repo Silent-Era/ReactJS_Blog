@@ -7,7 +7,7 @@ import Button from 'material-ui/Button';
 import userActions from '../../actions/user/userActions';
 import * as types from '../../actions/user/userActionsTypes';
 import userStore from '../../stores/user/userStore';
-import toastr from 'toastr';
+import notifier from '../../utils/notifier';
 
 class LoginPage extends Component {
     constructor() {
@@ -82,12 +82,12 @@ class LoginPage extends Component {
 
     onRespond(response) {
         if (response.errors.length) {
-
+            notifier.notifyMany(response.errors, "error");
         } else {
             localStorage.setItem('token', response.data.token);
             
             history.push('/');
-            toastr.success('Login successful');
+            notifier.notify('Login successful', "success");
         }
     }
 }
