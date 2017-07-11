@@ -17,7 +17,7 @@ class UserStore extends EventEmitter {
 
     login(user) {
         AuthApi.loginReq(user).then(respond => {
-            if(respond.errors.length){
+            if(respond.errors.length===0){
                 this.user = respond.data.userData
             }
             this.emit(types.USER_LOGGED_IN, respond);
@@ -35,7 +35,7 @@ class UserStore extends EventEmitter {
      */
     register(user) {
         AuthApi.registerReq(user).then(respond => {
-            if(respond.errors.length){
+            if(respond.errors.length === 0){
                 this.user = respond.data.userData
             }
             this.emit(types.USER_REGISTERED, respond);

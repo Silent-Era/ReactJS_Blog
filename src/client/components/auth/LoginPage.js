@@ -28,7 +28,7 @@ class LoginPage extends Component {
     }
 
     componentWillUnmount() {
-        userStore.removeListener(types.USER_REGISTERED, this.onRespond);
+        userStore.removeListener(types.USER_LOGGED_IN, this.onRespond);
     }
 
     render() {
@@ -85,8 +85,7 @@ class LoginPage extends Component {
 
         } else {
             localStorage.setItem('token', response.data.token);
-            // localStorage.setItem('reactive_blog_user', response.data.user.username);
-
+            
             history.push('/');
             toastr.success('Login successful');
         }
