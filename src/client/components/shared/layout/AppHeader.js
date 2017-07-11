@@ -48,7 +48,7 @@ class AppHeader extends Component {
             appHeaderPartial = (
                 <div>
                     <Button>
-                        <Avatar size={20} src={user.profilePic} />
+                        <Avatar size={20} src={process.env.PUBLIC_URL+user.profilePic.substring(1)} />
                     </Button>
                     <IconButton color="contrast" data-route="/auth/logout" onClick={this.logout}>
                         <ExitToApp />
