@@ -13,6 +13,7 @@ class UserStore extends EventEmitter {
         this.register = this.register.bind(this);
         this.login = this.login.bind(this);
         this.handleAction = this.handleAction.bind(this);
+        this.getUser = this.getUser.bind(this)
     }
 
     login(user) {
@@ -64,6 +65,9 @@ class UserStore extends EventEmitter {
                 throw new Error('Unknown action passed the store');
             }
         }
+    }
+    getUser(){
+        console.log(this.user)
     }
 }
 

@@ -73,6 +73,23 @@ module.exports = {
             res.status(200).json({errors:[{message:err.message}], data:null})
         })
     },
+    isAutherized: (req, res) => {
+        if(req.user){
+            let user = {
+                _id: req.user.id,
+                username: req.user.username,
+                roles: req.user.roles,
+                profilePic: req.user.profilePic,
+                posts: req.user.posts,
+                comments: req.user.comments,
+                email: req.user.email,
+                isBlocked: req.user.isBlocked
+            }
+            return res.json({errors:[],data:{userData:user}})
+        }
+        
+        res.json({errors:[],data:{userData:null}})
+    },
     test: (req, res) => {
         res.json({user:req.user, message:'test went well'})
     }    

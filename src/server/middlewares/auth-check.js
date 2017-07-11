@@ -14,7 +14,6 @@ module.exports = (req, res, next) => {
     }
 
     jwt.verify(token, secretStr, (err, decoded) => {
-        console.log(token)
         if(err) return res.status(401).send('Error while handling the token')
 
         let userId = decoded.sub, 

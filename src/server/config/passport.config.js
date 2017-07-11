@@ -40,7 +40,8 @@ let localLoginStrategy = new Strategy({
           comments:foundUser.comments,
           isBlocked:foundUser.isBlocked,
           profilePic:foundUser.profilePic,
-          email: foundUser.email
+          email: foundUser.email,
+          isBlocked: foundUser.isBlocked
         }
 
         done(null, token, userData)
