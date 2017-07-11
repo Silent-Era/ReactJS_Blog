@@ -1,7 +1,10 @@
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
+import UserStore from '../../../stores/user/userStore'
+import * as types from '../../../actions/user/userActionsTypes'
 
 import AppBar from 'material-ui/AppBar';
+import Avatar from 'material-ui/Avatar'
 import Toolbar from 'material-ui/Toolbar';
 import Typography from 'material-ui/Typography';
 import Button from 'material-ui/Button';
@@ -19,23 +22,39 @@ class AppHeader extends Component {
         this.state = {
             navigation: {
                 opened: false
-            }
+            },
+            user:''
         };
 
         this.toggleNavigation = this.toggleNavigation.bind(this);
         this.navigate = this.navigate.bind(this);
+        this.onRespond = this.onRespond.bind(this)
+        this.logout = this.logout.bind(this)
+
+        UserStore.on(types.USER_LOGGED_IN, this.onRespond);
+        UserStore.on(types.USER_REGISTERED, this.onRespond);
     }
 
-    render() {
-        let token = localStorage.getItem('token'),
-            appHeaderPartial = null;
+    componentWillUnmount () {
+        UserStore.removeListener(types.USER_LOGGED_IN,this.onRespond)
+        UserStore.removeListener(types.USER_REGISTERED,this.onRespond)
+    }
+    
 
-        if (token) {
-            appHeaderPartial = <div>
-                <IconButton color="contrast" data-route="/auth/logout" onClick={this.logout}>
-                    <ExitToApp />
-                </IconButton>
-            </div>;
+    render() {
+        let user = this.state.user,
+                   appHeaderPartial = null;
+        if (user) {
+            appHeaderPartial = (
+                <div>
+                    <Button>
+                        <Avatar size={20} src={user.profilePic} />
+                    </Button>
+                    <IconButton color="contrast" data-route="/auth/logout" onClick={this.logout}>
+                        <ExitToApp />
+                    </IconButton>
+                </div>
+            );
         } else {
             appHeaderPartial = <div>
                 <Button data-route="/auth/login" color="contrast" onClick={this.navigate}>Login</Button>
@@ -78,7 +97,18 @@ class AppHeader extends Component {
 
     logout() {
         localStorage.clear();
+        this.setState({
+            user:''
+        })
         history.push('/');
+    }
+
+    onRespond(response){
+        if(response.errors.length === 0){
+            this.setState({
+                user:response.data.userData
+            })
+        }
     }
 }
 
