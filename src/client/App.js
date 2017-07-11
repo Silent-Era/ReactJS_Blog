@@ -26,19 +26,19 @@ class App extends Component {
         return (
             <MuiThemeProvider>
                 <div id="app-wrapper">
-
-
                     <AppHeader title={this.state.name} />
                     
-                    <Switch>
-                        <Route exact path='/' component={HomePage} />
-                        <Route exact path='/user/:id' component={UserPage} />
+                    <div id="views-wrapper">
+                        <Switch className="">
+                            <Route exact path='/' component={HomePage} />
+                            <Route exact path='/user/:id' component={UserPage} />
 
-                        <Route exact path='/auth/login' component={LoginPage} />
-                        <Route exact path='/auth/register' component={RegisterPage} />
+                            <Route exact path='/auth/login' component={LoginPage} />
+                            <Route exact path='/auth/register' component={RegisterPage} />
 
-                        <Route path='*' component={NotFoundPage} />
-                    </Switch>
+                            <Route path='*' component={NotFoundPage} />
+                        </Switch>
+                    </div>
                 </div>
             </MuiThemeProvider>
         );
