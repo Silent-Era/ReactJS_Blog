@@ -2,7 +2,7 @@ const User = require('../models/User')
 const jwt = require('jsonwebtoken')
 const secretStr = 'some random bullshit333'
 
-module.exports = (req, res, next) => {
+module.exports = (role) => (req, res, next) => {
     let authHeaders = req.headers.authorization
     if(!authHeaders){
         return res.status(401).send('Invalid auth headers')
@@ -22,14 +22,17 @@ module.exports = (req, res, next) => {
 
         User.findById(userId).then(foundUser => {
             if(!foundUser || foundUser.password !== password){
-                if(!foundUser)
-                    return res.status(401).send('In user problem')
-                res.status(404).json({
-                    reqPass:password,
-                    foundPass:foundUser.password
-                })
+                 return res.status(401).send('Invalid token')
             }
 
+            if(role){
+                if(foundUser.roles.indexOf('Admin') === -1){
+                    return res.json({
+                        error:[{message:'Not authorized to do that'}],
+                        data:null
+                    })
+                }
+            }
             req.user = foundUser
 
             next()

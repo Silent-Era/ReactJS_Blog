@@ -6,9 +6,10 @@ const authCheck = require('../middlewares/auth-check')
 let setServerRoutes = (app) => {
     app.post('/user/login', controllers.userController.loginUser)
     app.post('/user/register', controllers.userController.registerUser)
-    app.get('/user/authenticate', authCheck , controllers.userController.isAutherized)
+    app.get('/user/authenticate', authCheck() , controllers.userController.isAutherized)
 
-    app.get('/test', authCheck, controllers.userController.test)
+    app.get('/posts/getAllPosts', controllers.postController.getAllPosts)
+    app.get('/test', authCheck('Admin'), controllers.userController.test)
 }
 
 module.exports= (app) => {

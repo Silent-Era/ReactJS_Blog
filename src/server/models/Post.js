@@ -11,7 +11,7 @@ let postSchema = new Schema({
     views:{type:Number,default:0},
     background:{type:String},
     likedBy:[{type:Schema.Types.ObjectId,ref:'User'}]
-})
+},{ timestamps: true })
 
 let Post = mongoose.model('Post',postSchema)
 
