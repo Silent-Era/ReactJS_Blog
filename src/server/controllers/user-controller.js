@@ -4,13 +4,21 @@ const passport = require('passport')
 
 let validateLoginForm = (formBody) => {
     let errors = []
-    
+    let username = formBody.username, password = formBody.password
     //TODO validate input fields
+    if(!username || !password){
+        errors.push({message:'Fields must not be empty'})
+    }
+
     return errors 
 }
 
 let validateRegisterForm = (formBody) => {
     let errors = []
+    let username = formBody.username, password = formBody.password
+    if(!username || !password){
+        errors.push({message:'Fields must not be empty'})
+    }
     
     //TODO validate input fields
     return errors 
@@ -19,13 +27,15 @@ let validateRegisterForm = (formBody) => {
 let passportAuth = (req, res) => {
     passport.authenticate('local-login',(err, token, userData) => {
         if(err){
-            res.status(200).json({errors:[{message:err.message}], data:null}) 
+          return res.status(200).json({errors:[{message:err.message}], data:null}) 
         }
-
+        console.log(err)
         res.json({
             errors:[],
-            data:userData,
-            token
+            data:{
+                token,
+                userData
+            }
         })
     })(req, res)
 }

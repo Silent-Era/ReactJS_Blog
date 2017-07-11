@@ -1,5 +1,6 @@
 import { EventEmitter } from 'events';
 
+import AuthApi from '../../ApiHelpers/AuthApi'
 import dispatcher from '../../dispatcher';
 import * as types from '../../actions/user/userActionsTypes';
 
@@ -7,22 +8,20 @@ class UserStore extends EventEmitter {
     constructor() {
         super();
 
+        this.user = {}
+
         this.register = this.register.bind(this);
         this.login = this.login.bind(this);
         this.handleAction = this.handleAction.bind(this);
     }
 
     login(user) {
-        if (true/*API return success*/) {
-            user.token = '123aBCD456';
-            // TODO: REPLACE mockData with data received from API promise (then)
-            let mockData = {
-                errors: [],
-                data: {user}
+        AuthApi.loginReq(user).then(respond => {
+            if(respond.errors.length){
+                this.user = respond.data.userData
             }
-
-            this.emit(types.USER_LOGGED_IN, mockData);
-        }
+            this.emit(types.USER_LOGGED_IN, respond);
+        })
     }
 
     logout() {
@@ -35,17 +34,12 @@ class UserStore extends EventEmitter {
      * @param {Object} user 
      */
     register(user) {
-        // TODO: Call api
-        if (true/*API return success*/) {
-            user.token = '123aBCD456';
-            // TODO: REPLACE mockData with data received from API promise (then)
-            let mockData = {
-                errors: [],
-                data: {user}
+        AuthApi.registerReq(user).then(respond => {
+            if(respond.errors.length){
+                this.user = respond.data.userData
             }
-
-            this.emit(types.USER_REGISTERED, mockData);
-        }
+            this.emit(types.USER_REGISTERED, respond);
+        })
     }
 
     /**

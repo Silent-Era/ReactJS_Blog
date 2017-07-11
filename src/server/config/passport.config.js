@@ -4,7 +4,6 @@ const { Strategy } = require('passport-local')
 const enc = require('../utils/encryption')
 const jwt = require('jsonwebtoken')
 const secretStr = 'some random bullshit333'
-const error = {message:'Invalid credentials'}
 
 let localLoginStrategy = new Strategy({
     session:false,

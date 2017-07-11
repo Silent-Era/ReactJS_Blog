@@ -27,7 +27,7 @@ class AppHeader extends Component {
     }
 
     render() {
-        let token = localStorage.getItem('reactive_blog_token'),
+        let token = localStorage.getItem('token'),
             appHeaderPartial = null;
 
         if (token) {

@@ -84,8 +84,8 @@ class LoginPage extends Component {
         if (response.errors.length) {
 
         } else {
-            localStorage.setItem('reactive_blog_token', response.data.user.token);
-            localStorage.setItem('reactive_blog_user', response.data.user.username);
+            localStorage.setItem('token', response.data.token);
+            // localStorage.setItem('reactive_blog_user', response.data.user.username);
 
             history.push('/');
             toastr.success('Login successful');
