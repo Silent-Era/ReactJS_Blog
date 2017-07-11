@@ -1,6 +1,6 @@
 import { EventEmitter } from 'events';
 
-import AuthApi from '../../ApiHelpers/AuthApi'
+import requester from '../../utils/requester'
 import dispatcher from '../../dispatcher';
 import * as types from '../../actions/user/userActionsTypes';
 
@@ -16,16 +16,18 @@ class UserStore extends EventEmitter {
     }
 
     login(user) {
-        AuthApi.loginReq(user).then(respond => {
-            if(respond.errors.length===0){
+        requester.post('/user/login', JSON.stringify(user)).then(respond => {
+            if (respond.errors.length === 0) {
                 this.user = respond.data.userData
             }
+
             this.emit(types.USER_LOGGED_IN, respond);
         })
     }
 
     logout() {
-        this.emit(types.USER_LOGGED_OUT);
+        // TODO: Implement logout with events
+        // this.emit(types.USER_LOGGED_OUT);
     }
 
     /**
@@ -34,10 +36,11 @@ class UserStore extends EventEmitter {
      * @param {Object} user 
      */
     register(user) {
-        AuthApi.registerReq(user).then(respond => {
-            if(respond.errors.length === 0){
+        requester.post('/user/register', JSON.stringify(user)).then(respond => {
+            if (respond.errors.length === 0) {
                 this.user = respond.data.userData
             }
+
             this.emit(types.USER_REGISTERED, respond);
         })
     }
@@ -48,7 +51,7 @@ class UserStore extends EventEmitter {
      * @param {Object} action 
      */
     handleAction(action) {
-        switch(action.type) {
+        switch (action.type) {
             case types.USER_REGISTER: {
                 this.register(action.payload);
                 break;
