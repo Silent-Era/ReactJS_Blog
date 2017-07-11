@@ -2,7 +2,7 @@ import $ from 'jquery';
 
 const baseUrl = 'http://localhost:3001';
 const defaultOptions = {
-    contentType: 'application/json';
+    contentType: 'application/json'
 };
 
 export default {
