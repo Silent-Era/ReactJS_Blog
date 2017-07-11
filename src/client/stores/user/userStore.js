@@ -40,9 +40,9 @@ class UserStore extends EventEmitter {
             .then(respond => {
                 if (!respond.errors.length) {
                     this.user = respond.data.userData
+                    this.emit(types.USER_AUTHENTICATED, respond.data.userData)
                 }
 
-                this.emit(types.USER_AUTHENTICATED, respond.data.userData)
                 this.emit(types.USER_LOGGED_IN, respond);
             });
     }
