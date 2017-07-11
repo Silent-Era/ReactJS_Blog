@@ -8,22 +8,43 @@ class UserStore extends EventEmitter {
     constructor() {
         super();
 
-        this.user = {}
+        this.user = null;
 
         this.register = this.register.bind(this);
         this.login = this.login.bind(this);
+        this.authenticate = this.authenticate.bind(this);
         this.handleAction = this.handleAction.bind(this);
-        this.getUser = this.getUser.bind(this)
+    }
+
+    authenticate() {
+        if (!this.user) {
+            let options = {
+                contentType: 'application/json',
+                headers: {"authorization": `token ${localStorage.getItem('token')}`}
+            };
+
+            requester.get('/user/authenticate', options)
+                .then(response => {
+                    if (!response.errors.length) {
+                        this.user = response.data.userData;
+                        this.emit(types.USER_AUTHENTICATED, response.data.userData);
+                    }
+                });
+        } else {            
+            return this.user;
+        }
     }
 
     login(user) {
-        requester.post('/user/login', JSON.stringify(user)).then(respond => {
-            if (respond.errors.length === 0) {
-                this.user = respond.data.userData
-            }
+        requester.post('/user/login', JSON.stringify(user))
+            .then(respond => {
+                if (!respond.errors.length) {
+                    this.user = respond.data.userData
+                }
 
-            this.emit(types.USER_LOGGED_IN, respond);
-        })
+                this.emit(types.USER_AUTHENTICATED, respond.data.userData)
+                this.emit(types.USER_LOGGED_IN, respond);
+            });
     }
 
     logout() {
@@ -37,13 +58,15 @@ class UserStore extends EventEmitter {
      * @param {Object} user 
      */
     register(user) {
-        requester.post('/user/register', JSON.stringify(user)).then(respond => {
-            if (respond.errors.length === 0) {
-                this.user = respond.data.userData
-            }
+        requester.post('/user/register', JSON.stringify(user))
+            .then(respond => {
+                if (!respond.errors.length) {
+                    this.user = respond.data.userData;
+                }
 
-            this.emit(types.USER_REGISTERED, respond);
-        })
+                this.emit(types.USER_REGISTERED, respond);
+                this.emit(types.USER_AUTHENTICATED, respond.data.userData)
+            });
     }
 
     /**
@@ -61,13 +84,14 @@ class UserStore extends EventEmitter {
                 this.login(action.payload);
                 break;
             }
+            case types.USER_AUTHENTICATE: {
+                this.authenticate(action.payload);
+                break;
+            }
             default: {
                 throw new Error('Unknown action passed the store');
             }
         }
-    }
-    getUser(){
-        console.log(this.user)
     }
 }
 

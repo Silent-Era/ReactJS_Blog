@@ -13,6 +13,12 @@ const userActions = {
             type: types.USER_LOGIN,
             payload: user
         });
+    },
+    authenticate: (token) => {
+        dispatcher.dispatch({
+            type: types.USER_AUTHENTICATE,
+            payload: token
+        });
     }
 };
 

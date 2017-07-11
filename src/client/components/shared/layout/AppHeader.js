@@ -1,7 +1,8 @@
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
-import UserStore from '../../../stores/user/userStore'
-import * as types from '../../../actions/user/userActionsTypes'
+import userStore from '../../../stores/user/userStore';
+import userActions from '../../../actions/user/userActions';
+import * as types from '../../../actions/user/userActionsTypes';
 
 import AppBar from 'material-ui/AppBar';
 import Avatar from 'material-ui/Avatar'
@@ -23,33 +24,40 @@ class AppHeader extends Component {
             navigation: {
                 opened: false
             },
-            user:''
+            user: userActions.authenticate(localStorage.getItem('token'))
         };
 
         this.toggleNavigation = this.toggleNavigation.bind(this);
         this.navigate = this.navigate.bind(this);
-        this.onRespond = this.onRespond.bind(this)
-        this.logout = this.logout.bind(this)
+        this.logout = this.logout.bind(this);
+        this.onAuthenticationUpdate = this.onAuthenticationUpdate.bind(this)
 
-        UserStore.on(types.USER_LOGGED_IN, this.onRespond);
-        UserStore.on(types.USER_REGISTERED, this.onRespond);
+        userStore.on(types.USER_AUTHENTICATED, this.onAuthenticationUpdate);
     }
 
-    componentWillUnmount () {
-        UserStore.removeListener(types.USER_LOGGED_IN,this.onRespond)
-        UserStore.removeListener(types.USER_REGISTERED,this.onRespond)
+    onAuthenticationUpdate(authenticatedUser) {
+        this.setState({
+            user: authenticatedUser
+        })
     }
-    
+
+    componentWillUnmount() {
+        userStore.removeListener(types.USER_AUTHENTICATED, this.onRespond);
+    }
 
     render() {
-        let user = this.state.user,
-                   appHeaderPartial = null;
-        if (user) {
+        let appHeaderPartial = null;
+
+        if (this.state.user) {
             appHeaderPartial = (
                 <div>
                     <Button data-route="/user/profile">
-                        <Avatar size={20} src={process.env.PUBLIC_URL+user.profilePic.substring(1)} />
+                        <Avatar
+                            size={20}
+                            src={`${process.env.PUBLIC_URL}${this.state.user.profilePic.substring(1)}`}
+                        />
                     </Button>
+
                     <IconButton color="contrast" data-route="/auth/logout" onClick={this.logout}>
                         <ExitToApp />
                     </IconButton>
@@ -97,18 +105,12 @@ class AppHeader extends Component {
 
     logout() {
         localStorage.clear();
-        this.setState({
-            user:''
-        })
-        history.push('/');
-    }
 
-    onRespond(response){
-        if(response.errors.length === 0){
-            this.setState({
-                user:response.data.userData
-            })
-        }
+        this.setState({
+            user: null
+        });
+
+        history.push('/');
     }
 }
 
