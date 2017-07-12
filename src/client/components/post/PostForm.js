@@ -5,6 +5,9 @@ import TextField from 'material-ui/TextField';
 import Button from 'material-ui/Button';
 
 import notifier from '../../utils/notifier';
+import postActions from '../../actions/posts/postActions'
+import * as postActionsTypes from '../../actions/posts/postActionTypes'
+import postStore from '../../stores/posts/postStore'
 
 class PostForm extends Component {
     constructor (props) {
@@ -20,7 +23,15 @@ class PostForm extends Component {
 
         this.onInputChange = this.onInputChange.bind(this)
         this.onSubmit = this.onSubmit.bind(this);
+        this.handleRespond = this.handleRespond.bind(this)
+
+        postStore.on(postActionsTypes.CREATED_POST,this.handleRespond)
     }
+
+    componentWillUnmount () {
+        postStore.removeListener(postActionsTypes.CREATED_POST, this.handleRespond)
+    }
+    
     
     render () {
         return (
@@ -83,7 +94,17 @@ class PostForm extends Component {
     }
 
     onSubmit(e){
-        console.log(this.state.post)
+        e.preventDefault()
+        postActions.createPost(this.state.post)
+    }
+
+    handleRespond(response){
+        if(response.errors.length){
+            notifier.notifyMany(response.errors,"error")
+        } else {
+            history.push('/')
+            notifier.notify('Post successfully created','success')
+        }
     }
 }
 

@@ -88,9 +88,6 @@ class UserStore extends EventEmitter {
                 this.authenticate(action.payload);
                 break;
             }
-            default: {
-                throw new Error('Unknown action passed the store');
-            }
         }
     }
 }

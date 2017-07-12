@@ -9,7 +9,7 @@ let setServerRoutes = (app) => {
     app.get('/user/authenticate', authCheck() , controllers.userController.isAutherized)
 
     app.get('/posts/getall', controllers.postController.getAllPosts)
-    app.post('/posts/create', authCheck(), controllers.postController.createPost)
+    app.post('/posts/create', authCheck('Admin'), controllers.postController.createPost)
     app.get('/test', authCheck('Admin'), controllers.userController.test)
 }
 

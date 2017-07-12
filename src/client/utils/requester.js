@@ -18,7 +18,8 @@ export default {
         return $.post({
             url: `${baseUrl}${endpoint}`,
             data: data,
-            contentType: options.contentType
+            contentType: options.contentType,
+            headers:options.headers
         });
     }
 }
