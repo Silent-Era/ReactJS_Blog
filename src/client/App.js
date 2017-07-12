@@ -11,6 +11,8 @@ import LoginPage from './components/auth/LoginPage';
 import RegisterPage from './components/auth/RegisterPage';
 import NotFoundPage from './components/shared/NotFoundPage';
 
+import PostForm from './components/post/PostForm'
+
 import './AppStyles.css';
 
 class App extends Component {
@@ -30,12 +32,13 @@ class App extends Component {
                     
                     <div id="views-wrapper">
                         <Switch className="">
-                            <Route exact path='/' component={HomePage} />
-                            <Route exact path='/user/:id' component={UserPage} />
+                            <Route exact path='/' component={ HomePage } />
+                            <Route exact path='/user/:id' component={ UserPage } />
 
-                            <Route exact path='/auth/login' component={LoginPage} />
-                            <Route exact path='/auth/register' component={RegisterPage} />
+                            <Route exact path='/auth/login' component={ LoginPage } />
+                            <Route exact path='/auth/register' component={ RegisterPage } />
 
+                            <Route exact path='/posts/create' component={ PostForm } />
                             <Route path='*' component={NotFoundPage} />
                         </Switch>
                     </div>

@@ -4,7 +4,7 @@ const msg = '{PATH} is required'
 
 let postSchema = new Schema({
     title:{type:String,required:msg},
-    body:{type:String},
+    text:{type:String},
     author:{type:Schema.Types.ObjectId,ref:'User'},
     comments:[{type:Schema.Types.ObjectId,ref:'Comment'}],
     likes:{type:Number,default:0},

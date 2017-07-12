@@ -5,7 +5,7 @@ const secretStr = 'some random bullshit333'
 module.exports = (role) => (req, res, next) => {
     let authHeaders = req.headers.authorization
     if(!authHeaders){
-        return res.status(401).send('Invalid auth headers')
+        return res.status(401).send('Missing token')
     }
 
     let token = authHeaders.split(' ')[1]

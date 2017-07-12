@@ -8,11 +8,12 @@ let setServerRoutes = (app) => {
     app.post('/user/register', controllers.userController.registerUser)
     app.get('/user/authenticate', authCheck() , controllers.userController.isAutherized)
 
-    app.get('/posts/getAllPosts', controllers.postController.getAllPosts)
+    app.get('/posts/getall', controllers.postController.getAllPosts)
+    app.post('/posts/create', authCheck(), controllers.postController.createPost)
     app.get('/test', authCheck('Admin'), controllers.userController.test)
 }
 
-module.exports= (app) => {
+module.exports = (app) => {
     app.use(express.static(path.resolve(__dirname,'../../../','public'))) //for non-production
 
     //all the server api's will be handled here
@@ -22,5 +23,4 @@ module.exports= (app) => {
      app.get('*',(req,res) => {  // for non production
         res.sendFile(path.resolve(__dirname, '../../../', 'public', 'index.html')); 
     })
-
 }

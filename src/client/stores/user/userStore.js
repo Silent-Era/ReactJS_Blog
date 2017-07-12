@@ -16,17 +16,18 @@ class UserStore extends EventEmitter {
         this.handleAction = this.handleAction.bind(this);
     }
 
-    authenticate() {
-        if (!this.user) {
+    authenticate(token) {
+        if (token) {
             let options = {
                 contentType: 'application/json',
-                headers: {"authorization": `token ${localStorage.getItem('token')}`}
+                headers: {"authorization": `token ${token}`}
             };
 
             requester.get('/user/authenticate', options)
                 .then(response => {
                     if (!response.errors.length) {
                         this.user = response.data.userData;
+                        console.log('from authenticate')
                         this.emit(types.USER_AUTHENTICATED, response.data.userData);
                     }
                 });

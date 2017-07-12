@@ -24,7 +24,7 @@ class AppHeader extends Component {
             navigation: {
                 opened: false
             },
-            user: userActions.authenticate(localStorage.getItem('token'))
+            user: userActions.authenticate(localStorage.getItem('token')) 
         };
 
         this.toggleNavigation = this.toggleNavigation.bind(this);
