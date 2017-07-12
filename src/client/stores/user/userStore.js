@@ -45,8 +45,8 @@ class UserStore extends EventEmitter {
         requester.post('/user/login', JSON.stringify(user), false)
             .then(respond => {
                 if (!respond.errors.length) {
-                    this.user = respond.data.userData
-                    this.emit(types.USER_AUTHENTICATED, respond.data.userData)
+                    this.user = respond.data.userData;
+                    this.emit(types.USER_AUTHENTICATED, respond.data.userData);
                 }
 
                 this.emit(types.USER_LOGGED_IN, respond);
@@ -72,7 +72,7 @@ class UserStore extends EventEmitter {
             .then(respond => {
                 if (!respond.errors.length) {
                     this.user = respond.data.userData;
-                    this.emit(types.USER_AUTHENTICATED, respond.data.userData)
+                    this.emit(types.USER_AUTHENTICATED, respond.data.userData);
                 }
 
                 this.emit(types.USER_REGISTERED, respond);
