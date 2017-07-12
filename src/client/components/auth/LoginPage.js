@@ -8,6 +8,7 @@ import userActions from '../../actions/user/userActions';
 import * as types from '../../actions/user/userActionsTypes';
 import userStore from '../../stores/user/userStore';
 import notifier from '../../utils/notifier';
+import storage from '../../utils/storage';
 
 class LoginPage extends Component {
     constructor() {
@@ -34,7 +35,7 @@ class LoginPage extends Component {
     render() {
         return (
             <section>
-                <h2>Make a post</h2>
+                <h2>Login</h2>
 
                 <form>
                     <div>
@@ -84,7 +85,7 @@ class LoginPage extends Component {
         if (response.errors.length) {
             notifier.notifyMany(response.errors, "error");
         } else {
-            localStorage.setItem('token', response.data.token);
+            storage.set('token', response.data.token);
             
             history.push('/');
             notifier.notify('Login successful', "success");
