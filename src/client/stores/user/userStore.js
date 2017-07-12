@@ -15,15 +15,14 @@ class UserStore extends EventEmitter {
         this.authenticate = this.authenticate.bind(this);
         this.handleAction = this.handleAction.bind(this);
     }
-
     
     /**
      * @name authenticate
      * @desc call API to check if user token is valid
      * @param {Object} user 
      */
-    authenticate(token) {
-        if (token) {
+    authenticate() {
+        if (!this.user) {
             requester.get('/user/authenticate')
                 .then(response => {
                     if (!response.errors.length) {
@@ -53,7 +52,7 @@ class UserStore extends EventEmitter {
             });
     }
 
-     /**
+    /**
      * @name logout
      * @desc clear loggedin user information
      */
@@ -98,6 +97,7 @@ class UserStore extends EventEmitter {
                 this.authenticate(action.payload);
                 break;
             }
+            default: break;
         }
     }
 }
