@@ -10,7 +10,7 @@ import List, { ListItem, ListItemText } from 'material-ui/List';
 import { Link } from 'react-router-dom';
 
 import UserStore from '../../../stores/user/userStore'
-import * as UserTypes from '../../../actions/user/userActionsTypes'
+import * as UserTypes from '../../../actions/user/userActionsTypes' 
 
 const styleSheet = createStyleSheet('AppNavigation', {
     navigationItems: {
@@ -22,7 +22,7 @@ const styleSheet = createStyleSheet('AppNavigation', {
     },
     navigationLink: {
         padding: '10px',
-        display: 'block',
+        display: 'block', 
         width: '100%',
         textDecoration: 'none',
     }

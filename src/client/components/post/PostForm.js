@@ -36,7 +36,7 @@ class PostForm extends Component {
     render () {
         return (
             <section>
-                <h2>Login</h2>
+                <h2>Make a post</h2>
 
                 <form>
                     <div>
