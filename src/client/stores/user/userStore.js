@@ -16,14 +16,15 @@ class UserStore extends EventEmitter {
         this.handleAction = this.handleAction.bind(this);
     }
 
+    
+    /**
+     * @name authenticate
+     * @desc call API to check if user token is valid
+     * @param {Object} user 
+     */
     authenticate(token) {
         if (token) {
-            let options = {
-                contentType: 'application/json',
-                headers: {"authorization": `token ${token}`}
-            };
-
-            requester.get('/user/authenticate', options)
+            requester.get('/user/authenticate')
                 .then(response => {
                     if (!response.errors.length) {
                         this.user = response.data.userData;
@@ -34,7 +35,12 @@ class UserStore extends EventEmitter {
             return this.user;
         }
     }
-
+    
+    /**
+     * @name login
+     * @desc call API to login a given user
+     * @param {Object} user 
+     */
     login(user) {
         requester.post('/user/login', JSON.stringify(user))
             .then(respond => {
@@ -47,6 +53,10 @@ class UserStore extends EventEmitter {
             });
     }
 
+     /**
+     * @name logout
+     * @desc clear loggedin user information
+     */
     logout() {
         // TODO: Implement logout with events
         // this.emit(types.USER_LOGGED_OUT);
