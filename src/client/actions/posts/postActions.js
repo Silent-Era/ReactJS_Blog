@@ -7,6 +7,11 @@ let postActions = {
             type:postActionTypes.CREATE_POST,
             payload:post
         })
+    },
+    getRecentPosts:() => {
+        dispatcher.dispatch({
+            type:postActionTypes.GET_RECENT_POSTS
+        })
     }
 }
 

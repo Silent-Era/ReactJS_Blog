@@ -42,7 +42,7 @@ class AppNavigation extends Component {
 
     componentWillUnmount() {
         UserStore.removeListener(UserTypes.USER_AUTHENTICATED, this.handleStoreChange)
-        UserStore.removeListener(UserTypes.USER_LOGGED_OUT, this.onLogoutSuccess);
+        UserStore.removeListener(UserTypes.USER_LOGGED_OUT, this.onLogoutSuccess)
     }
     
     render() {

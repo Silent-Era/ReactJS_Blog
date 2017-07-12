@@ -12,6 +12,7 @@ class PostStore extends EventEmitter{
 
         this.createPost = this.createPost.bind(this)
         this.handleActions = this.handleActions.bind(this)
+        this.getRecentPosts = this.getRecentPosts.bind(this)
     }
 
     createPost(post){
@@ -32,10 +33,20 @@ class PostStore extends EventEmitter{
         }
     }
 
+    getRecentPosts(){
+        requester.get('/posts/getall').then(response =>{
+            if( response.errors.length === 0){
+                this.posts = response.data.posts
+                this.emit(types.GOT_RECENT_POSTS, response.data.posts.slice(0,10))
+            }
+        })
+    }
+
     handleActions(action){
         switch(action.type){
             case 'CREATE_POST': this.createPost(action.payload); break;
-           
+            case 'GET_RECENT_POSTS': this.getRecentPosts(); break;
+            default: break;
         }
     }
 }

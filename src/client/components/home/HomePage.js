@@ -1,7 +1,32 @@
 import React, { Component } from 'react'
-import Card, { CardActions, CardContent, CardMedia } from 'material-ui/Card'
-import FlatButton from 'material-ui/Button'
-import $ from 'jquery'
+
+import * as types from '../../actions/posts/postActionTypes'
+import postActions from '../../actions/posts/postActions'
+import postStore from '../../stores/posts/postStore'
+
+import Card, { CardHeader, CardActions, CardContent, CardMedia } from 'material-ui/Card'
+import Button from 'material-ui/Button'
+import Avatar from 'material-ui/Avatar'
+
+let cardStyle = {
+    width:'70%',
+    margin:'0 auto'
+}
+
+let cardMediaStyle = {
+    width:'100%'
+}
+
+let cardContentStyle = {
+    background:'#222222',
+    color:'white',
+    fontFamily:'sans-serif'
+}
+
+let buttonStyle = {
+    background:'#3F51B5',
+    color:'white'
+}
 
 class HomePage extends Component {
     constructor (props) {
@@ -10,17 +35,18 @@ class HomePage extends Component {
         this.state = { 
             posts: null
         }
+
+        postStore.on(types.GOT_RECENT_POSTS, this.setRecentPosts.bind(this))
     }
     
     componentWillMount () {
-        $.get('http://localhost:3001/posts/getall').then(respond => {
-            if(!respond.errors.length){
-                this.setState({
-                    posts:respond.data.posts
-                })
-            } 
-        })
+        postActions.getRecentPosts()
     }
+    
+    componentWillUnmount () {
+        postStore.removeListener(types.GOT_RECENT_POSTS,this.setRecentPosts)
+    }
+    
     
     render () { 
         let posts = this.state.posts
@@ -45,21 +71,41 @@ class HomePage extends Component {
 
             if(post.background){
                 cardMedia=(
-                    <CardMedia
-                    overlay={ post.title }>
-                        <img src={ post.background } alt=""/>
+                    <CardMedia>
+                        <img src={ post.background } style={cardMediaStyle} alt=""/>
                     </CardMedia>
                 )
             }
+            let postText = post.text
+            if(postText.length > 200) postText = postText.substring(0,197) + '...'
             return (
-                <Card key={post._id}>
-                    {'Content  '}
+                <Card style={cardStyle} key={post._id}>
+                    <CardHeader
+                        avatar={
+                            <Avatar src={ avatarUrl }/>
+                        }
+                        title={ author.username }
+                     />
+                     { cardMedia }
+                     <CardContent style={cardContentStyle}>
+                        <h2>{post.title}</h2>
+                        <p>{postText}</p>
+                     </CardContent>
+                     <CardActions style={cardContentStyle}>
+                         <Button style={buttonStyle}>Read More</Button>
+                     </CardActions>
                 </Card>
             )
         }
 
        return posts = posts.map(post => generateCard(post))
     }
+
+    setRecentPosts(posts){
+        this.setState({
+            posts:posts
+        })
+    }
 }
 
-export default HomePage;
+export default HomePage

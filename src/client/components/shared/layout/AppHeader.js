@@ -58,12 +58,16 @@ class AppHeader extends Component {
         let appHeaderPartial = null;
 
         if (this.state.user) {
+            let avatarUrl = this.state.user.profilePic
+            if(avatarUrl[0] === '.') 
+                avatarUrl = process.env.PUBLIC_URL + avatarUrl.substring(1)
+                
             appHeaderPartial = (
                 <div>
                     <Button data-route="/user/profile">
                         <Avatar
                             size={20}
-                            src={`${process.env.PUBLIC_URL}${this.state.user.profilePic.substring(1)}`}
+                            src={ avatarUrl }
                         />
                     </Button>
 
