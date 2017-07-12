@@ -1,4 +1,5 @@
 import $ from 'jquery';
+import storage from './storage';
 
 const baseUrl = 'http://localhost:3001';
 const defaultOptions = {
@@ -7,14 +8,22 @@ const defaultOptions = {
 };
 
 export default {
-    get: (endpoint, options = defaultOptions) => {
+    get: (endpoint, authorize = true, options = defaultOptions) => {
+        if (authorize) {
+            options.headers['authorization'] = `token ${storage.get('token')}`;
+        }
+
         return $.get({
             url: `${baseUrl}${endpoint}`,
             contentType: options.contentType,
             headers: options.headers
         });
     },
-    post: (endpoint, data, options = defaultOptions) => {
+    post: (endpoint, data, authorize = true, options = defaultOptions) => {
+        if (authorize) {
+            options.headers['authorization'] = `token ${storage.get('token')}`;
+        }
+
         return $.post({
             url: `${baseUrl}${endpoint}`,
             data: data,
