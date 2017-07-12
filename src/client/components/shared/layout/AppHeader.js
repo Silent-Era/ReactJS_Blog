@@ -33,6 +33,7 @@ class AppHeader extends Component {
         this.onAuthenticationUpdate = this.onAuthenticationUpdate.bind(this)
 
         userStore.on(types.USER_AUTHENTICATED, this.onAuthenticationUpdate);
+        userStore.on(types.USER_LOGGED_OUT, this.onLogoutSuccess.bind(this))
     }
 
     onAuthenticationUpdate(authenticatedUser) {
@@ -41,8 +42,16 @@ class AppHeader extends Component {
         })
     }
 
+    onLogoutSuccess(){
+        this.setState({
+            user: null
+        })
+        history.push('/')
+    }
+
     componentWillUnmount() {
-        userStore.removeListener(types.USER_AUTHENTICATED, this.onRespond);
+        userStore.removeListener(types.USER_AUTHENTICATED, this.onAuthenticationUpdate);
+        userStore.removeListener(types.USER_LOGGED_OUT, this.onLogoutSuccess);
     }
 
     render() {
@@ -104,13 +113,7 @@ class AppHeader extends Component {
     }
 
     logout() {
-        localStorage.clear();
-
-        this.setState({
-            user: null
-        });
-
-        history.push('/');
+        userActions.logout()
     }
 }
 

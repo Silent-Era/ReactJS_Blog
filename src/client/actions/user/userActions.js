@@ -19,6 +19,11 @@ const userActions = {
             type: types.USER_AUTHENTICATE,
             payload: token
         });
+    },
+    logout: () => {
+        dispatcher.dispatch({
+            type: types.USER_LOG_OUT
+        })
     }
 };
 

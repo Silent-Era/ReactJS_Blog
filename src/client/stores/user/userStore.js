@@ -14,6 +14,7 @@ class UserStore extends EventEmitter {
         this.login = this.login.bind(this);
         this.authenticate = this.authenticate.bind(this);
         this.handleAction = this.handleAction.bind(this);
+        this.logout = this.logout.bind(this)
     }
     
     /**
@@ -21,8 +22,8 @@ class UserStore extends EventEmitter {
      * @desc call API to check if user token is valid
      * @param {Object} user 
      */
-    authenticate() {
-        if (!this.user) {
+    authenticate(token) {
+        if (token) {
             requester.get('/user/authenticate')
                 .then(response => {
                     if (!response.errors.length) {
@@ -57,8 +58,9 @@ class UserStore extends EventEmitter {
      * @desc clear loggedin user information
      */
     logout() {
-        // TODO: Implement logout with events
-        // this.emit(types.USER_LOGGED_OUT);
+        this.user = null
+        localStorage.clear()
+        this.emit(types.USER_LOGGED_OUT)
     }
 
     /**
@@ -95,6 +97,10 @@ class UserStore extends EventEmitter {
             }
             case types.USER_AUTHENTICATE: {
                 this.authenticate(action.payload);
+                break;
+            }
+            case types.USER_LOG_OUT:{
+                this.logout()
                 break;
             }
             default: break;

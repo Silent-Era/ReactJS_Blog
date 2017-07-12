@@ -52,17 +52,13 @@ class HomePage extends Component {
                 )
             }
             return (
-                <div>
-                    <Card key={post._id}>
-                        {'Content  '}
-                    </Card>
-                </div>
+                <Card key={post._id}>
+                    {'Content  '}
+                </Card>
             )
         }
 
-        posts = posts.map(post => generateCard(post))
-        console.log(posts)
-        return posts
+       return posts = posts.map(post => generateCard(post))
     }
 }
 

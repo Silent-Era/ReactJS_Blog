@@ -37,10 +37,12 @@ class AppNavigation extends Component {
         }
 
         UserStore.on(UserTypes.USER_AUTHENTICATED, this.handleStoreChange.bind(this))
+        UserStore.on(UserTypes.USER_LOGGED_OUT, this.onLogoutSuccess.bind(this))
     }
 
     componentWillUnmount() {
-        UserStore.removeListener(UserTypes.USER_AUTHENTICATED, this.handleStoreChange);
+        UserStore.removeListener(UserTypes.USER_AUTHENTICATED, this.handleStoreChange)
+        UserStore.removeListener(UserTypes.USER_LOGGED_OUT, this.onLogoutSuccess);
     }
     
     render() {
@@ -82,6 +84,12 @@ class AppNavigation extends Component {
                 </Drawer>
             </nav>
         );
+    }
+
+    onLogoutSuccess(){
+        this.setState({
+            showLinksForAuth:false
+        })
     }
 
     handleStoreChange(user){
