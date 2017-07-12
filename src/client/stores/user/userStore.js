@@ -27,7 +27,6 @@ class UserStore extends EventEmitter {
                 .then(response => {
                     if (!response.errors.length) {
                         this.user = response.data.userData;
-                        console.log('from authenticate')
                         this.emit(types.USER_AUTHENTICATED, response.data.userData);
                     }
                 });
