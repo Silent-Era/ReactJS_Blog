@@ -42,7 +42,7 @@ class UserStore extends EventEmitter {
      * @param {Object} user 
      */
     login(user) {
-        requester.post('/user/login', JSON.stringify(user))
+        requester.post('/user/login', JSON.stringify(user), false)
             .then(respond => {
                 if (!respond.errors.length) {
                     this.user = respond.data.userData
@@ -68,7 +68,7 @@ class UserStore extends EventEmitter {
      * @param {Object} user 
      */
     register(user) {
-        requester.post('/user/register', JSON.stringify(user))
+        requester.post('/user/register', JSON.stringify(user), false)
             .then(respond => {
                 if (!respond.errors.length) {
                     this.user = respond.data.userData;
