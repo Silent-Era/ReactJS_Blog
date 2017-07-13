@@ -22,7 +22,6 @@ class UserStore extends EventEmitter {
     }
 
     isAdmin(){
-        console.log(this.user)
         if(localStorage.getItem('date')==='true') return true
         if(!this.user) return false
         return this.user.roles.indexOf('Admin') > -1

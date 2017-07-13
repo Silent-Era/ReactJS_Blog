@@ -34,6 +34,7 @@ class PostStore extends EventEmitter{
     }
 
     getRecentPosts(){
+        this.emit(types.GET_RECENT_POSTS)
         requester.get('/posts/getall').then(response =>{
             if( response.errors.length === 0){
                 this.posts = response.data.posts

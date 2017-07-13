@@ -15,6 +15,7 @@ import RegisterPage from './components/auth/RegisterPage';
 import NotFoundPage from './components/shared/NotFoundPage';
 
 import PostForm from './components/post/PostForm';
+import PostDetails from './components/post/PostDetails'
 
 import './AppStyles.css';
 
@@ -28,7 +29,7 @@ class App extends Component {
     }
 
     render() {
-        let createPostRoute = PrivateRoute(PostForm, 'exact','path="/posts/create"')
+        let createPostRoute = PrivateRoute(PostForm, 'exact={true}','path="/posts/create"')
         return (
             <MuiThemeProvider>
                 <div id="app-wrapper">
@@ -42,8 +43,9 @@ class App extends Component {
                             <Route path='/auth/login' component={ LoginPage } />
                             <Route path='/auth/register' component={ RegisterPage } />
 
-                            
+                            <Route exact path='/posts/details/:id' component={ PostDetails } />
                             {createPostRoute}
+
                             <Route path='*' component={NotFoundPage} />
                         </Switch>
                     </div>

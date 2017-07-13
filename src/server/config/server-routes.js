@@ -10,6 +10,8 @@ let setServerRoutes = (app) => {
 
     app.get('/posts/getall', controllers.postController.getAllPosts)
     app.post('/posts/create', authCheck('Admin'), controllers.postController.createPost)
+    app.get('/posts/getsingle/:id',controllers.postController.getSinglePost)
+
     app.get('/test', authCheck('Admin'), controllers.userController.test)
 }
 

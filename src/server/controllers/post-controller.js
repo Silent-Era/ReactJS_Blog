@@ -48,16 +48,47 @@ module.exports = {
         }
 
         Post.create(reqPost).then(createdPost => {
-            res.json({
+            User.findById(req.user._id).then(foundUser => {
+                if(!foundUser){
+                    console.log('Wrong post author')
+                   return res.status(503).send('Wrong post author')
+                }
+
+                foundUser.posts.push(createdPost._id)
+                foundUser.save()
+
+                res.json({
                 errors:[],
                 data:{
                     postCreated:true,
                     postData:createdPost
                 }
             })
+
+        })
+            
         }).catch(err => {
             console.log(err)
             res.status(501).send('Error on our end')
+        })
+    },
+    getSinglePost: (req, res) => {
+        let postId = req.params.id
+        if(!postId){
+            return res.status(404).send('Invalid link')
+        }
+
+        Post.findById(postId).then(foundPost => {
+            if(!foundPost){
+                return res.status(404).send('Invalid link')
+            }
+
+            res.json({
+                errors:[],
+                data:{
+                    post:foundPost
+                }
+            })
         })
     }
 }
