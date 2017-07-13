@@ -29,7 +29,7 @@ class App extends Component {
     }
 
     render() {
-        let createPostRoute = PrivateRoute(PostForm, 'exact={true}','path="/posts/create"')
+        let createPostRoute = PrivateRoute(PostForm,'path="/posts/create"')
         return (
             <MuiThemeProvider>
                 <div id="app-wrapper">

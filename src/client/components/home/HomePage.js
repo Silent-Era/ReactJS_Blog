@@ -75,7 +75,7 @@ class HomePage extends Component {
         return (
             <div>
                 <div className='loading'>{loading}</div>
-                {posts || 'No posts yet'}
+                {posts}
             </div>
         )
     }
