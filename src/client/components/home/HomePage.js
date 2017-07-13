@@ -9,6 +9,7 @@ import Card, { CardHeader, CardActions, CardContent, CardMedia } from 'material-
 import Button from 'material-ui/Button'
 import Avatar from 'material-ui/Avatar'
 import LoadingCircle from '../shared/LoadingCircle'
+import Collapse from 'material-ui/transitions/Collapse'
 
 let cardStyle = {
     width:'70%',
@@ -30,15 +31,24 @@ let buttonStyle = {
     color:'white'
 }
 
+let cardCollapseStyle={
+    background:'#222222',
+    color:'white',
+    fontFamily:'sans-serif',
+    padding:'2%',
+    textAlign:'justify'
+}
+
 class HomePage extends Component {
     constructor (props) {
         super(props)
         
         this.state = { 
             posts: null,
-            showLoading:false
+            showLoading:false,
+            expanded:0
         }
-
+        this.handleExpandClick = this.handleExpandClick.bind(this)
         postStore.on(types.GET_RECENT_POSTS, this.setLoading.bind(this))
         postStore.on(types.GOT_RECENT_POSTS, this.setRecentPosts.bind(this))
     }
@@ -88,6 +98,8 @@ class HomePage extends Component {
             }
             let postText = post.text
             if(postText.length > 200) postText = postText.substring(0,197) + '...'
+            let expand = false;
+            if(this.state.expanded=== post._id) expand = true
             return (
                 <Card style={cardStyle} key={post._id}>
                     <CardHeader
@@ -104,11 +116,23 @@ class HomePage extends Component {
                      <CardActions style={cardContentStyle}>
                          <Button 
                             style={buttonStyle} 
-                            data-route={`/posts/details/${post._id}`}
-                            onClick={this.navigate}>
+                            onClick={this.handleExpandClick.bind(this, post._id)}>
                              Read more
                          </Button>
+                         <Button 
+                            style={buttonStyle} 
+                            data-route={`/posts/details/${post._id}`}
+                            onClick={this.navigate}>
+                             Read Comments
+                         </Button>
                      </CardActions>
+                     <Collapse 
+                     in={expand} 
+                     transitionDuration="auto" 
+                     unmountOnExit
+                     style={cardContentStyle}>
+                         <CardContent> {post.text}</CardContent>
+                     </Collapse>
                 </Card>
             )
         }
@@ -130,6 +154,15 @@ class HomePage extends Component {
     setLoading(){
         this.setState({
             showLoading:true
+        })
+    }
+
+    handleExpandClick(id){
+        if(id === this.state.expanded){
+            id = 0
+        }
+        this.setState({
+            expanded:id
         })
     }
 }

@@ -1,4 +1,5 @@
 const Post = require('../models/Post')
+const User = require('../models/User')
 
 let validateCreatePostForm = (formBody) => {
     let errors = []

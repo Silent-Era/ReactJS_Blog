@@ -3,6 +3,7 @@ import PropTypes from 'prop-types';
 import userStore from '../../../stores/user/userStore';
 import userActions from '../../../actions/user/userActions';
 import * as types from '../../../actions/user/userActionsTypes';
+import {Link} from 'react-router-dom'
 
 import AppBar from 'material-ui/AppBar';
 import Avatar from 'material-ui/Avatar'
@@ -61,7 +62,7 @@ class AppHeader extends Component {
             let avatarUrl = this.state.user.profilePic
             if(avatarUrl[0] === '.') 
                 avatarUrl = process.env.PUBLIC_URL + avatarUrl.substring(1)
-                
+
             appHeaderPartial = (
                 <div>
                     <Button data-route="/user/profile">
@@ -92,7 +93,7 @@ class AppHeader extends Component {
                         </IconButton>
 
                         <Typography style={{"flex": "1"}} type="title" color="inherit">
-                            {this.props.title}
+                            <Link to="/">{this.props.title}</Link>
                         </Typography>
     
                         {appHeaderPartial}
