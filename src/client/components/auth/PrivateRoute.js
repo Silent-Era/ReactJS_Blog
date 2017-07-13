@@ -1,13 +1,13 @@
-import React from 'react';
-import { Redirect, Route } from 'react-router-dom';
-import userActions from '../../actions/user/userActions';
+import React from 'react'
+import { Redirect, Route } from 'react-router-dom'
+import userStore from '../../stores/user/userStore'
 
-const PrivateRoute = ({ component: Component }, ...rest) => (
+const PrivateRoute = (Component, ...rest) => (
     <Route {...rest}
         render={props => (
-            userActions.authenticate()
-                ?<Component  {...props} />
-                :<Redirect to={{ pathname: "/auth/login", state: { from: props.location } }} />
+            userStore.isAdmin()
+                ? <Component  {...props} />
+                : <Redirect to={{ pathname: "/auth/login", state: { from: props.location } }} />
         )}
     />
 );

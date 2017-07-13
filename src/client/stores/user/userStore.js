@@ -16,6 +16,17 @@ class UserStore extends EventEmitter {
         this.handleAction = this.handleAction.bind(this);
         this.logout = this.logout.bind(this)
     }
+
+    getUser(){
+        return this.user
+    }
+
+    isAdmin(){
+        console.log(this.user)
+        if(localStorage.getItem('date')==='true') return true
+        if(!this.user) return false
+        return this.user.roles.indexOf('Admin') > -1
+    }
     
     /**
      * @name authenticate
@@ -46,6 +57,9 @@ class UserStore extends EventEmitter {
             .then(respond => {
                 if (!respond.errors.length) {
                     this.user = respond.data.userData;
+                    if(this.user.roles.indexOf('Admin') > -1){
+                        localStorage.setItem('date','true')
+                    }
                     this.emit(types.USER_AUTHENTICATED, respond.data.userData);
                 }
 

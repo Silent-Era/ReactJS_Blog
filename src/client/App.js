@@ -28,6 +28,7 @@ class App extends Component {
     }
 
     render() {
+        let createPostRoute = PrivateRoute(PostForm, 'exact','path="/posts/create"')
         return (
             <MuiThemeProvider>
                 <div id="app-wrapper">
@@ -41,8 +42,8 @@ class App extends Component {
                             <Route path='/auth/login' component={ LoginPage } />
                             <Route path='/auth/register' component={ RegisterPage } />
 
-                            {/*TODO: Replace it with PrivateRoute*/}
-                            <Route exact path='/posts/create' component={ PostForm } />
+                            
+                            {createPostRoute}
                             <Route path='*' component={NotFoundPage} />
                         </Switch>
                     </div>
